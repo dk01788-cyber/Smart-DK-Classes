@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="View Smart DK Classes product details and pay by exact amount UPI QR.">
+  <title>Product | Smart DK Classes</title>
+  <link rel="icon" href="/assets/img/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="/assets/js/config.js"></script>
+  <script defer src="/assets/js/demo-data.js"></script>
+  <script defer src="/assets/js/sdk.js"></script>
+  <script defer src="/assets/js/layout.js"></script>
+</head>
+<body><div id="app-header"></div>
+<main class="shell product-page">
+  <div><div id="product-cover" class="product-big placeholder-thumb"><div><b>Smart DK</b><span>Product</span><small>Loading…</small></div></div><div class="safe-note">Payment success server से verify होने के बाद ही paid access unlock होगा। Screenshot payment proof से unlock नहीं होगा।</div></div>
+  <div id="product-detail" class="product-detail"><div class="empty-box">Loading product…</div></div>
+</main>
+<div class="modal" id="qr-modal" hidden><div class="modal-card"><button class="modal-close" id="qr-close">×</button><h2>Scan & Pay</h2><p id="qr-amount"></p><img id="qr-image" alt="UPI QR"><p class="pay-msg" id="qr-msg">Payment status check हो रहा है…</p></div></div>
+<div id="app-footer"></div><script defer src="/assets/js/product.js"></script></body></html>

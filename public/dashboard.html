@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Smart DK Classes student dashboard.">
+  <title>Dashboard | Smart DK Classes</title>
+  <link rel="icon" href="/assets/img/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="/assets/js/config.js"></script>
+  <script defer src="/assets/js/demo-data.js"></script>
+  <script defer src="/assets/js/sdk.js"></script>
+  <script defer src="/assets/js/layout.js"></script>
+</head>
+<body><div id="app-header"></div>
+<section class="page-head"><div class="shell"><span>STUDENT AREA</span><h1>My Dashboard</h1><p>Purchases, downloads, course access और doubts.</p></div></section>
+<main class="shell section-block dashboard-grid">
+  <div class="dashboard-main">
+    <section class="panel"><h2>My Purchases</h2><div id="purchase-list" class="simple-list"><div>Loading…</div></div></section>
+    <section class="panel"><h2>Ask a Doubt</h2><form id="doubt-form" class="stack"><textarea class="input" id="doubt-question" rows="4" placeholder="अपना सवाल लिखें…" required></textarea><button class="btn primary" type="submit">Submit Doubt</button></form><div id="doubt-msg"></div><div id="doubt-list" class="doubt-list"></div></section>
+  </div>
+  <aside class="panel"><h2>Account</h2><div id="account-box">Loading…</div><hr><a class="btn dark full" href="/shop.html">Browse Store</a><a class="btn white-border full" href="/admin.html" id="admin-link" hidden>Open Admin Panel</a></aside>
+</main>
+<div id="app-footer"></div><script defer src="/assets/js/dashboard.js"></script></body></html>

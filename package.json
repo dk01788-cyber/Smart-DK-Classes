@@ -1,0 +1,12 @@
+{
+  "name": "smart-dk-classes-v4",
+  "private": true,
+  "version": "4.0.0",
+  "scripts": {
+    "dev": "wrangler pages dev public",
+    "deploy": "wrangler pages deploy public --project-name smart-dk-classes"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Smart DK Classes admin panel.">
+  <title>Admin | Smart DK Classes</title>
+  <link rel="icon" href="/assets/img/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="/assets/js/config.js"></script>
+  <script defer src="/assets/js/demo-data.js"></script>
+  <script defer src="/assets/js/sdk.js"></script>
+  <script defer src="/assets/js/layout.js"></script>
+</head>
+<body><div id="app-header"></div>
+<section class="page-head"><div class="shell"><span>ADMIN CONTROL</span><h1>Smart DK Admin Panel</h1><p>Products, prices, vacancies, affiliate links, files और website content manage करें।</p></div></section>
+<main class="shell section-block admin-stack">
+  <section class="panel">
+    <h2>Website Contact Settings</h2>
+    <p>Mobile/email बाद में बदलने के लिए code edit करने की जरूरत नहीं होगी।</p>
+    <form id="settings-form" class="form-grid">
+      <label>Support Mobile<input class="input" id="set-phone"></label>
+      <label>Support Email<input class="input" id="set-email" type="email"></label>
+      <label>WhatsApp (country code सहित)<input class="input" id="set-whatsapp"></label>
+      <label>YouTube Channel ID<input class="input" id="set-youtube"></label>
+      <label class="span-2">Announcement<input class="input" id="set-announcement"></label>
+      <button class="btn primary span-2" type="submit">Save Website Settings</button>
+    </form><div id="settings-msg"></div>
+  </section>
+  <section class="panel">
+    <div class="panel-head"><h2>Product / Price</h2><a class="btn small dark" href="/wallet.html">Wallet / Balance</a></div>
+    <form id="product-form" class="form-grid">
+      <input type="hidden" id="prod-id">
+      <label>Title<input class="input" id="prod-title" required></label>
+      <label>Type<select class="input" id="prod-type"><option>Model Paper</option><option>Book</option><option>Paid Course</option><option>Super Notes</option></select></label>
+      <label>Class<input class="input" id="prod-class"></label>
+      <label>Subject<input class="input" id="prod-subject"></label>
+      <label>MRP ₹<input class="input" id="prod-mrp" type="number" min="0" step="1"></label>
+      <label>Selling Price ₹<input class="input" id="prod-price" type="number" min="0" step="1"></label>
+      <label class="span-2">Description<textarea class="input" id="prod-desc" rows="3"></textarea></label>
+      <label><input type="checkbox" id="prod-digital" checked> Digital</label>
+      <label><input type="checkbox" id="prod-physical"> Physical book</label>
+      <label><input type="checkbox" id="prod-published" checked> Published</label>
+      <label>Validity days<input class="input" id="prod-validity" type="number" min="0" value="0"></label>
+      <div class="span-2 inline"><button class="btn primary" type="submit">Save Product</button><button class="btn white-border" type="button" id="prod-reset">New / Reset</button></div>
+    </form>
+    <div id="product-admin-list" class="admin-cards"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Upload Paid PDF / ZIP</h2>
+    <p>Private <code>paid-files</code> bucket में upload होगा। Student को purchase verify होने के बाद Storage RLS file access देता है।</p>
+    <form id="file-form" class="form-grid">
+      <label>Product<select class="input" id="file-product" required></select></label>
+      <label>File<input class="input" type="file" id="paid-file" accept=".pdf,.zip" required></label>
+      <button class="btn primary span-2" type="submit">Upload & Attach</button>
+    </form><div id="file-msg"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Vacancy</h2>
+    <form id="vacancy-form" class="form-grid">
+      <input type="hidden" id="vac-id">
+      <label>Title<input class="input" id="vac-title" required></label>
+      <label>Category<input class="input" id="vac-category" value="Government Jobs"></label>
+      <label>Department<input class="input" id="vac-dept"></label>
+      <label>Total Posts<input class="input" id="vac-posts"></label>
+      <label>Qualification<input class="input" id="vac-qualification"></label>
+      <label>Age Limit<input class="input" id="vac-age"></label>
+      <label>Fee<input class="input" id="vac-fee"></label>
+      <label>Salary<input class="input" id="vac-salary"></label>
+      <label>Start Date<input class="input" id="vac-start" type="date"></label>
+      <label>Last Date<input class="input" id="vac-last" type="date"></label>
+      <label>Official URL<input class="input" id="vac-official" type="url"></label>
+      <label>Apply URL<input class="input" id="vac-apply" type="url"></label>
+      <label>Notification PDF URL<input class="input" id="vac-notification" type="url"></label>
+      <label><input type="checkbox" id="vac-published" checked> Published</label>
+      <label class="span-2">Description<textarea class="input" id="vac-desc" rows="3"></textarea></label>
+      <div class="span-2 inline"><button class="btn primary" type="submit">Save Vacancy</button><button class="btn white-border" type="button" id="vac-reset">New / Reset</button></div>
+    </form><div id="vacancy-admin-list" class="admin-cards"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Affiliate Recommendation</h2>
+    <form id="affiliate-form" class="form-grid">
+      <input type="hidden" id="aff-id">
+      <label>Marketplace<select class="input" id="aff-market"><option>Amazon</option><option>Flipkart</option><option>Other</option></select></label>
+      <label>Title<input class="input" id="aff-title" required></label>
+      <label>Price text<input class="input" id="aff-price" placeholder="₹599 / Check latest price"></label>
+      <label>Affiliate URL<input class="input" id="aff-url" type="url" required></label>
+      <label>Image URL<input class="input" id="aff-image" type="url"></label>
+      <label><input type="checkbox" id="aff-published" checked> Published</label>
+      <label class="span-2">Description<textarea class="input" id="aff-desc" rows="2"></textarea></label>
+      <div class="span-2 inline"><button class="btn primary" type="submit">Save Recommendation</button><button class="btn white-border" type="button" id="aff-reset">New / Reset</button></div>
+    </form><div id="affiliate-admin-list" class="admin-cards"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Free / Paid Videos</h2>
+    <p>Public YouTube uploads home page पर RSS से आते हैं। यहाँ course-linked free/paid video records add कर सकते हैं।</p>
+    <form id="video-form" class="form-grid">
+      <input type="hidden" id="video-id">
+      <label>Title<input class="input" id="video-title" required></label>
+      <label>YouTube Video ID<input class="input" id="video-youtube" placeholder="dQw4w9WgXcQ"></label>
+      <label>Access<select class="input" id="video-access"><option value="free">Free</option><option value="paid">Paid</option></select></label>
+      <label>Linked Product<select class="input" id="video-product"><option value="">No product</option></select></label>
+      <label><input type="checkbox" id="video-published" checked> Published</label>
+      <div class="span-2 inline"><button class="btn primary" type="submit">Save Video</button><button class="btn white-border" type="button" id="video-reset">New / Reset</button></div>
+    </form>
+    <div id="video-admin-list" class="admin-cards"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Student Doubts</h2>
+    <div id="admin-doubts" class="doubt-list"><div class="empty-box">Loading doubts…</div></div>
+  </section>
+</main>
+<div id="app-footer"></div><script defer src="/assets/js/admin.js"></script></body></html>

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Admin payment settlement dashboard.">
+  <title>Wallet / Balance | Smart DK Classes</title>
+  <link rel="icon" href="/assets/img/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="/assets/js/config.js"></script>
+  <script defer src="/assets/js/demo-data.js"></script>
+  <script defer src="/assets/js/sdk.js"></script>
+  <script defer src="/assets/js/layout.js"></script>
+</head>
+<body><div id="app-header"></div>
+<section class="page-head"><div class="shell"><span>ADMIN PAYMENT LEDGER</span><h1>Smart DK Wallet / Balance</h1><p>यह regulated wallet नहीं है; यह payment/settlement tracking dashboard है।</p></div></section>
+<main class="shell section-block">
+  <div class="wallet-cards"><div class="wallet-primary"><span>Gross Paid</span><b id="wallet-gross">₹0</b><small>Captured/credited payments</small></div><div><span>Refunded</span><b id="wallet-refund">₹0</b><small>Recorded refunds</small></div><div><span>Bank Settled</span><b id="wallet-settled">₹0</b><small>Admin settlement records</small></div><div><span>Estimated Available</span><b id="wallet-available">₹0</b><small>Gross - refunds - settlements</small></div></div>
+  <div class="wallet-grid"><section class="panel"><h2>Recent Payments</h2><div id="wallet-payments" class="table-wrap"></div></section><section class="panel"><h2>Record Bank Settlement</h2><form id="settlement-form" class="stack"><label>Amount ₹<input class="input" id="settle-amount" type="number" min="1" required></label><label>Reference / Note<input class="input" id="settle-note"></label><button class="btn primary" type="submit">Record Settlement</button></form><div id="settlement-msg"></div><div id="settlement-list" class="simple-list"></div></section></div>
+  <div class="notice-box">Real money Razorpay/merchant provider के पास रहता है और provider के KYC-linked bank settlement rules लागू होते हैं। यह page accounting view है।</div>
+</main>
+<div id="app-footer"></div><script defer src="/assets/js/wallet.js"></script></body></html>
