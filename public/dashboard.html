@@ -15,11 +15,27 @@
 </head>
 <body><div id="app-header"></div>
 <section class="page-head"><div class="shell"><span>STUDENT AREA</span><h1>My Dashboard</h1><p>Purchases, downloads, course access और doubts.</p></div></section>
+
+<main class="shell section-block">
+  <section class="panel app-feature-panel">
+    <div class="panel-head"><div><span class="eyebrow">STUDENT PANEL</span><h2>All Features</h2></div></div>
+    <div class="app-feature-grid">
+      <a href="/shop.html"><b>📚 Courses & Store</b><span>Books, Model Papers, Super Notes, Paid Courses</span></a>
+      <a href="/vacancies.html"><b>💼 Jobs / Vacancy</b><span>Latest vacancies, dates, qualification and apply links</span></a>
+      <a href="/videos.html"><b>▶️ Videos</b><span>Free और purchased course videos</span></a>
+      <a href="/test-series.html"><b>📝 Test Series</b><span>Practice tests और results</span></a>
+      <a href="/affiliate.html"><b>🛍️ Recommended Store</b><span>Amazon / Flipkart study recommendations</span></a>
+      <a href="#purchase-list"><b>🔓 My Purchases</b><span>Purchased PDFs, courses and unlocked content</span></a>
+      <a href="#doubt-form"><b>❓ Ask a Doubt</b><span>Question submit करें और जवाब देखें</span></a>
+      <a href="/dashboard.html"><b>👤 My Account</b><span>Student profile and access</span></a>
+    </div>
+  </section>
+</main>
 <main class="shell section-block dashboard-grid">
   <div class="dashboard-main">
     <section class="panel"><h2>My Purchases</h2><div id="purchase-list" class="simple-list"><div>Loading…</div></div></section>
     <section class="panel"><h2>Ask a Doubt</h2><form id="doubt-form" class="stack"><textarea class="input" id="doubt-question" rows="4" placeholder="अपना सवाल लिखें…" required></textarea><button class="btn primary" type="submit">Submit Doubt</button></form><div id="doubt-msg"></div><div id="doubt-list" class="doubt-list"></div></section>
   </div>
-  <aside class="panel"><h2>Account</h2><div id="account-box">Loading…</div><hr><a class="btn dark full" href="/shop.html">Browse Store</a><a class="btn white-border full" href="/admin.html" id="admin-link" hidden>Open Admin Panel</a></aside>
+  <aside class="panel"><h2>Account</h2><div id="account-box">Loading…</div><hr><a class="btn dark full" href="/shop.html">Browse Store</a></aside>
 </main>
 <div id="app-footer"></div><script defer src="/assets/js/dashboard.js"></script></body></html>

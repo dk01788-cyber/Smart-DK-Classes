@@ -8,9 +8,9 @@ window.SMART_DK_CONFIG = {
 
   // Create a free Supabase project and paste the PUBLIC browser values here.
   // The publishable key is intended for public clients; RLS protects the data.
-  supabaseUrl: "PASTE_YOUR_SUPABASE_URL",
-  supabasePublishableKey: "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY",
+  supabaseUrl: "https://pmayishujtcwsvzedzwe.supabase.co",
+  supabasePublishableKey: "sb_publishable_L9CjjODFruFmi6-lFYx4Tw_md1JdMLU",
 
   // Optional: after Cloudflare Pages deploys, replace this with your pages.dev/custom URL.
-  siteUrl: ""
+  siteUrl: "https://smart-dk-classes-web.pages.dev"
 };

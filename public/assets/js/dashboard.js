@@ -1,11 +1,9 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const sdk = window.smartdk;
-  const state = await sdk.requireAuth();
+  const state = await sdk.requireStudent();
   if (!state) return;
-  const profile = await sdk.getProfile();
+  const profile = state.profile;
   document.getElementById("account-box").innerHTML = `<b>${sdk.escapeHtml(profile?.full_name || state.user.email || "Student")}</b><p>${sdk.escapeHtml(state.user.email||"")}</p>${profile?.phone?`<p>${sdk.escapeHtml(profile.phone)}</p>`:""}`;
-  if (profile?.is_admin) document.getElementById("admin-link").hidden = false;
-
   const purchases = await sdk.myPurchases();
   document.getElementById("purchase-list").innerHTML = purchases.map(p => `<div><span><b>${sdk.escapeHtml(p.products?.title || "Product")}</b><small>${new Date(p.created_at).toLocaleDateString("en-IN")} • ${sdk.money(p.amount)}</small></span>${p.products?.file_path?`<button class="btn small primary download-paid" data-path="${sdk.escapeHtml(p.products.file_path)}" data-name="${sdk.escapeHtml(p.products.title || "Smart-DK-file")}">Download</button>`:`<span class="status paid">Unlocked</span>`}</div>`).join("") || '<div>No paid purchases yet.</div>';
 

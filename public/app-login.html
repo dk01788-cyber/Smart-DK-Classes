@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#5b2be0">
+  <meta name="description" content="Smart DK Classes secure app login.">
+  <title>Smart DK Classes | Login</title>
+  <link rel="icon" href="/assets/img/favicon.svg">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/img/app-icon-192.png">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="/assets/js/config.js"></script>
+  <script defer src="/assets/js/demo-data.js"></script>
+  <script defer src="/assets/js/sdk.js"></script>
+  <script defer src="/assets/js/layout.js"></script>
+</head>
+<body class="app-login-body">
+  <main class="app-login-shell">
+    <form id="login-form" class="auth-card app-login-card" autocomplete="on">
+      <div class="app-login-logo-wrap"><img src="/assets/img/logo.svg" alt="Smart DK Classes"></div>
+      <h1>Smart DK Classes</h1>
+      <p class="app-login-tagline">Login to continue</p>
+      <div id="login-msg"></div>
+      <label>Email
+        <input class="input" type="email" id="login-email" autocomplete="email" inputmode="email" required>
+      </label>
+      <label>Password
+        <input class="input" type="password" id="login-password" autocomplete="current-password" minlength="6" required>
+      </label>
+      <div class="auth-link-row"><a class="text-link" href="/forgot-password.html">Forgot Password?</a></div>
+      <button class="btn primary full app-login-button" type="submit">Login</button>
+      <p class="app-login-note">Student और Admin दोनों इसी Login से प्रवेश करेंगे।</p>
+    </form>
+  </main>
+  <script defer src="/assets/js/auth.js"></script>
+</body>
+</html>

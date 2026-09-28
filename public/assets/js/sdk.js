@@ -78,10 +78,28 @@
     if (!state) return null;
     const profile = await getProfile();
     if (!profile?.is_admin) {
-      document.body.innerHTML = '<div class="shell section-block"><div class="error-box">Admin access required.</div></div>';
+      location.replace('/dashboard.html');
       return null;
     }
     return { ...state, profile };
+  }
+
+  async function requireStudent() {
+    const state = await requireAuth();
+    if (!state) return null;
+    const profile = await getProfile();
+    if (profile?.is_admin) {
+      location.replace('/admin.html');
+      return null;
+    }
+    return { ...state, profile };
+  }
+
+  async function destinationForCurrentUser() {
+    const state = await getSession();
+    if (!state.user) return '/login.html';
+    const profile = await getProfile();
+    return profile?.is_admin ? '/admin.html' : '/dashboard.html';
   }
 
   async function loadPublic(table, fallbackKey, orderBy = "created_at", ascending = false) {
@@ -133,10 +151,27 @@
     return sb.auth.signInWithPassword({ email, password });
   }
 
+  async function sendPasswordReset(email) {
+    const sb = getClient();
+    if (!sb) throw new Error("पहले Supabase setup complete करें।");
+    const site = String(cfg.siteUrl || location.origin).replace(/\/+$/, "");
+    return sb.auth.resetPasswordForEmail(email, {
+      redirectTo: `${site}/reset-password.html`
+    });
+  }
+
+  async function updatePassword(password) {
+    const sb = getClient();
+    if (!sb) throw new Error("पहले Supabase setup complete करें।");
+    return sb.auth.updateUser({ password });
+  }
+
   async function logout() {
     const sb = getClient();
     if (sb) await sb.auth.signOut();
-    location.href = "/";
+    const appMode = localStorage.getItem("smartdk_app_mode") === "1" ||
+      window.matchMedia?.("(display-mode: standalone)")?.matches || window.navigator.standalone === true;
+    location.href = appMode ? "/app-login.html?app=1" : "/";
   }
 
   async function authFetch(url, options = {}) {
@@ -165,6 +200,26 @@
     return out;
   }
 
+  async function createCheckoutOrder(productId, shipping = null) {
+    const res = await authFetch("/api/create-order", {
+      method: "POST",
+      body: JSON.stringify({ product_id: productId, shipping })
+    });
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(out.error || "Razorpay order create failed");
+    return out;
+  }
+
+  async function verifyCheckoutPayment(payload) {
+    const res = await authFetch("/api/verify-payment", {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(out.error || out.message || "Payment verification failed");
+    return out;
+  }
+
   async function myPurchases() {
     const sb = getClient();
     if (!sb) return [];
@@ -189,6 +244,19 @@
     if (!sb) throw new Error("Supabase setup required.");
     const { data, error } = await sb.storage.from("paid-files").download(filePath);
     if (error) throw error;
+
+    // Android WebView bridge: saves paid files to Downloads on supported devices.
+    if (window.SmartDKAndroid && typeof window.SmartDKAndroid.saveBase64File === "function") {
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result || "").split(",").pop() || "");
+        reader.onerror = () => reject(reader.error || new Error("File read failed"));
+        reader.readAsDataURL(data);
+      });
+      window.SmartDKAndroid.saveBase64File(filename, data.type || "application/octet-stream", base64);
+      return;
+    }
+
     const url = URL.createObjectURL(data);
     const a = document.createElement("a");
     a.href = url;
@@ -209,8 +277,8 @@
 
   window.smartdk = {
     cfg, demo, configured, getClient, money, qs, escapeHtml, notice,
-    getSession, getProfile, requireAuth, requireAdmin,
+    getSession, getProfile, requireAuth, requireAdmin, requireStudent, destinationForCurrentUser,
     loadProducts, loadVacancies, loadAffiliates, loadVideos, loadProduct,
-    signup, login, logout, authFetch, createQr, paymentStatus, myPurchases, myDoubts, downloadPaidFile, addDoubt
+    signup, login, sendPasswordReset, updatePassword, logout, authFetch, createQr, paymentStatus, createCheckoutOrder, verifyCheckoutPayment, myPurchases, myDoubts, downloadPaidFile, addDoubt
   };
 })();
