@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b63f6">
+  <title>PDF Viewer | Smart DK Classes</title>
+  <link rel="icon" href="/assets/img/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body class="pdf-viewer-body">
+  <header class="pdf-viewer-top">
+    <div class="pdf-viewer-bar">
+      <a class="pdf-back" href="/" aria-label="Back">←</a>
+      <div class="pdf-title"><b id="pdf-title">Smart DK Classes PDF</b><small id="pdf-page-label">Loading…</small></div>
+      <div class="pdf-tools">
+        <button id="pdf-prev" type="button">← Prev</button>
+        <button id="pdf-next" type="button">Next →</button>
+        <button id="pdf-zoom-out" type="button">−</button>
+        <button id="pdf-zoom-in" type="button">+</button>
+        <a id="pdf-download" class="pdf-download" target="_blank" rel="noopener">Download</a>
+      </div>
+    </div>
+  </header>
+  <main id="pdf-stage" class="pdf-stage">
+    <div id="pdf-status" class="pdf-status">PDF load हो रही है…</div>
+    <div id="pdf-canvas-wrap" class="pdf-canvas-wrap" hidden><canvas id="pdf-canvas"></canvas></div>
+  </main>
+  <script src="/assets/js/pdf-viewer.js"></script>
+</body>
+</html>

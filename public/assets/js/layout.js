@@ -52,8 +52,7 @@
     ["/#latest-content", "▣ PDFs & Notes"],
     ["/videos.html", "▶ Videos"],
     ["/vacancies.html", "▰ Vacancy"],
-    [blogUrl, "✎ Blog"],
-    ["/admin.html", "⚙ Admin"]
+    [blogUrl, "✎ Blog"]
   ];
 
   if (header) {
@@ -79,7 +78,7 @@
       <footer class="site-footer"><div class="shell footer-grid">
         <div><img class="footer-logo" src="/assets/img/logo.svg" alt=""><p>Class 9, 10, 11, 12 के लिए खुला educational platform.</p></div>
         <div><b>Learning</b><a href="/#latest-content">PDFs & Notes</a><a href="/videos.html">Videos</a><a href="/#classes">Classes</a></div>
-        <div><b>Updates</b><a href="/vacancies.html">Jobs / Vacancy</a><a href="${window.smartdk.escapeHtml(blogUrl)}" target="_blank" rel="noopener">Blogger</a><a href="/admin.html">Admin Panel</a></div>
+        <div><b>Updates</b><a href="/vacancies.html">Jobs / Vacancy</a><a href="${window.smartdk.escapeHtml(blogUrl)}" target="_blank" rel="noopener">Blogger</a></div>
         <div><b>Support</b><a href="tel:${settings.support_phone || settings.supportPhone || ""}">${settings.support_phone || settings.supportPhone || ""}</a><a href="mailto:${settings.support_email || settings.supportEmail || ""}">${settings.support_email || settings.supportEmail || ""}</a><a href="/legal.html">Privacy / Terms</a></div>
       </div><div class="shell footer-bottom">© <span id="footer-year"></span> Smart DK Classes • Public learning access</div></footer>`;
     const yr = document.getElementById("footer-year");

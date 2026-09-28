@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return `<article class="sdkc-study-card searchable-home" data-class="${sdk.escapeHtml(String(x.class_name || "").replace(/\D/g, ""))}" data-type="${sdk.escapeHtml(x.content_type || "other")}" data-search="${sdk.escapeHtml([x.title,x.description,x.class_name,x.subject,x.category].filter(Boolean).join(" ").toLowerCase())}">
       <div class="study-icon ${sdk.escapeHtml(x.content_type || "other")}">${x.content_type === "video" ? "▶" : x.content_type === "vacancy" ? "📢" : "PDF"}</div>
       <div class="study-copy"><span>${sdk.escapeHtml(typeLabel(x.content_type))}</span><h3>${sdk.escapeHtml(x.title)}</h3><p>${sdk.escapeHtml(meta || x.description || "Smart DK Classes")}</p></div>
-      <div class="study-actions">${href !== "#" ? `<a class="mini-btn" target="_blank" rel="noopener" href="${sdk.escapeHtml(href)}">${isFile ? "View / Download" : "Open"}</a>` : `<span class="mini-muted">Coming Soon</span>`}</div>
+      <div class="study-actions">${href !== "#" ? (isFile ? `<a class="mini-btn" href="/pdf-viewer.html?url=${encodeURIComponent(href)}&title=${encodeURIComponent(x.title || 'Smart DK Classes PDF')}">View PDF</a><a class="mini-btn mini-download" target="_blank" rel="noopener" href="${sdk.escapeHtml(href)}">Download</a>` : `<a class="mini-btn" target="_blank" rel="noopener" href="${sdk.escapeHtml(href)}">Open</a>`) : `<span class="mini-muted">Coming Soon</span>`}</div>
     </article>`;
   }
 
