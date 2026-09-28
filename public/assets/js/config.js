@@ -1,6 +1,6 @@
 window.SMART_DK_CONFIG = {
   brandName: "Smart DK Classes",
-  tagline: "Dream • Study • Success",
+  tagline: "Learn Today • Build Tomorrow",
   supportPhone: "7376546714",
   whatsappNumber: "917376546714",
   supportEmail: "dk01788@gmail.com",

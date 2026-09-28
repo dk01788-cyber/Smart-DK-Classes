@@ -1,9 +1,9 @@
 {
   "name": "Smart DK Classes",
   "short_name": "Smart DK",
-  "description": "Smart DK Classes learning app for courses, model papers, books, vacancies, videos, tests and student dashboard.",
-  "id": "/app-login.html?app=1",
-  "start_url": "/app-login.html?app=1",
+  "description": "Smart DK Classes public learning platform for PDFs, notes, model papers, videos and vacancy updates.",
+  "id": "/",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Books, model papers, paid courses, vacancy updates and Smart DK Classes videos.">
-  <title>Home | Smart DK Classes</title>
+  <meta name="description" content="Smart DK Classes — Class 9, 10, 11, 12 PDFs, notes, model papers, videos and vacancy updates.">
+  <title>Smart DK Classes | पढ़ाई अब होगी आसान</title>
   <link rel="icon" href="/assets/img/favicon.svg">
   <link rel="stylesheet" href="/assets/css/styles.css">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -13,86 +13,103 @@
   <script defer src="/assets/js/sdk.js"></script>
   <script defer src="/assets/js/layout.js"></script>
 </head>
-<body>
+<body class="app-theme-home">
 <div id="app-header"></div>
 
-<section class="hero-wrap">
-  <div class="shell hero">
-    <div class="hero-person">
-      <img src="/assets/img/teacher.png" alt="DK Sir">
-      <div class="signature">DK Sir<small>Smart DK Classes</small></div>
-    </div>
-    <div class="hero-copy">
-      <div class="hero-kicker">SMART DK CLASSES में आपका स्वागत है</div>
-      <h1>सही दिशा + सही मार्गदर्शन = उज्जवल भविष्य</h1>
-      <div class="hero-ribbon">पढ़ाई अब होगी स्मार्ट तरीके से</div>
-      <div class="hero-points">
-        <span>● Live + Recorded Classes</span><span>● Books (Printed & eBook)</span>
-        <span>● Model Papers</span><span>● Vacancy Updates</span>
-        <span>● Test Series</span><span>● Doubt Support</span>
-        <span>● Paid / Private Videos</span><span>● Recommended Books</span>
+<main>
+  <section class="sdkc-hero-shell shell">
+    <div class="sdkc-hero">
+      <div class="sdkc-hero-brand">
+        <div class="sdkc-hero-logo-row">
+          <img src="/assets/img/logo.svg" alt="Smart DK Classes logo">
+          <div><strong>Smart <em>DK</em> Classes</strong><span>Class 9, 10, 11, 12</span></div>
+        </div>
+        <div class="sdkc-hero-mini-links">
+          <a href="#latest-content"><i>▶</i><b>Video Classes</b><small>बेहतर समझ के साथ</small></a>
+          <a href="#latest-content"><i>PDF</i><b>PDF & Notes</b><small>सभी विषयों के लिए</small></a>
+          <a href="#latest-content"><i>★</i><b>Model Papers</b><small>परीक्षा की बेहतर तैयारी</small></a>
+          <a href="#vacancy-section"><i>⌁</i><b>Vacancy Updates</b><small>नई नौकरियों की जानकारी</small></a>
+        </div>
       </div>
-      <div class="hero-actions">
-        <a class="btn yellow" href="/shop.html">Explore Now →</a>
-        <a class="btn outline-light" href="/vacancies.html">Latest Vacancies</a>
+
+      <div class="sdkc-hero-copy">
+        <span class="sdkc-eyebrow">SMART DK CLASSES में आपका स्वागत है</span>
+        <h1>अब पढ़ाई होगी आसान,<br><b>लक्ष्य होगा शानदार</b></h1>
+        <div class="sdkc-ribbon">Smart Study <span>•</span> Better Future</div>
+        <div class="sdkc-benefits">
+          <span>◎ <b>Concept Based</b><small>Learning</small></span>
+          <span>↗ <b>Exam Oriented</b><small>Preparation</small></span>
+          <span>♟ <b>For Every</b><small>Student</small></span>
+          <span>☼ <b>Learn</b><small>Anytime, Anywhere</small></span>
+        </div>
+      </div>
+
+      <div class="sdkc-hero-teacher">
+        <div class="teacher-ring"></div>
+        <img src="/assets/img/teacher.png" alt="DK Sir">
+        <div class="dk-sign">DK Sir</div>
+        <div class="teacher-points"><span>✓ Simple Teaching</span><span>✓ Clear Concepts</span><span>✓ Exam Focused</span><span>✓ Student First</span></div>
       </div>
     </div>
-    <div class="hero-books"><div class="cap">🎓</div><span>MATHS</span><span>SCIENCE</span><span>ENGLISH</span><span>HINDI</span><span>REASONING</span></div>
-  </div>
-</section>
+  </section>
 
-<section class="shell quick-features">
-  <a href="/videos.html"><i>▶</i><b>Live + Recorded</b><small>Courses</small></a>
-  <a href="/shop.html"><i>▧</i><b>Model Papers</b><small>Price later</small></a>
-  <a href="/test-series.html"><i>☑</i><b>Test Series</b><small>Online tests</small></a>
-  <a href="/vacancies.html"><i>★</i><b>Jobs / Vacancy</b><small>Official links</small></a>
-  <a href="/affiliate.html"><i>🛍</i><b>Recommended</b><small>Affiliate store</small></a>
-  <a href="https://smartdkclasses.blogspot.com/" target="_blank" rel="noopener"><i>✎</i><b>Smart DK Blog</b><small>Study articles</small></a>
-  <a href="/dashboard.html"><i>?</i><b>Doubt Support</b><small>Ask & solve</small></a>
-</section>
+  <section id="classes" class="shell sdkc-dashboard-block">
+    <div class="sdkc-section-head"><div><span>📘</span><h2>Our Classes</h2></div><a href="#latest-content">View All →</a></div>
+    <div class="sdkc-class-grid">
+      <button class="sdkc-class-card c9" data-class-filter="9"><span class="class-num">9</span><div><b>Class 9</b><small>All Subjects</small></div><strong>Explore →</strong></button>
+      <button class="sdkc-class-card c10" data-class-filter="10"><span class="class-num">10</span><div><b>Class 10</b><small>All Subjects</small></div><strong>Explore →</strong></button>
+      <button class="sdkc-class-card c11" data-class-filter="11"><span class="class-num">11</span><div><b>Class 11</b><small>Science • Commerce • Arts</small></div><strong>Explore →</strong></button>
+      <button class="sdkc-class-card c12" data-class-filter="12"><span class="class-num">12</span><div><b>Class 12</b><small>Science • Commerce • Arts</small></div><strong>Explore →</strong></button>
+    </div>
+  </section>
 
-<section class="shell section-block">
-  <div class="section-title"><div><span>SMART DK STORE</span><h2>Books, Model Papers & Paid Courses</h2></div><a href="/shop.html">View All →</a></div>
-  <div id="home-products" class="product-grid"><div class="empty-box">Loading products…</div></div>
-</section>
+  <section class="shell sdkc-dashboard-block sdkc-two-column">
+    <div>
+      <div class="sdkc-section-head"><div><span>⚡</span><h2>Quick Access</h2></div></div>
+      <div class="sdkc-quick-grid">
+        <button data-type-filter="pdf"><i class="qa pdf">PDF</i><b>PDFs</b><small>Study Material</small></button>
+        <button data-type-filter="note"><i class="qa note">▤</i><b>Notes</b><small>Handwritten & Important</small></button>
+        <button data-type-filter="video"><i class="qa video">▶</i><b>Videos</b><small>Chapter Wise</small></button>
+        <button data-type-filter="model_paper"><i class="qa model">▣</i><b>Model Papers</b><small>Board Exam Special</small></button>
+        <a href="#vacancy-section"><i class="qa vacancy">⌁</i><b>Vacancy Updates</b><small>Latest Jobs & Alerts</small></a>
+      </div>
+    </div>
+    <div class="sdkc-admin-sync-card">
+      <span class="sync-icon">⚙</span>
+      <div><small>ONE ADMIN PANEL</small><h3>App + Website Connected</h3><p>Admin Panel से तय करें: <b>App Only</b>, <b>Website Only</b> या <b>Both</b>.</p></div>
+      <div class="sync-pills"><span>🌐 Website</span><span>📱 App</span><span>◉ Both</span></div>
+    </div>
+  </section>
 
-<section class="soft-section">
-  <div class="shell section-block">
-    <div class="section-title"><div><span>JOBS / VACANCY CENTER</span><h2>Latest Vacancy Updates</h2></div><a href="/vacancies.html">View All →</a></div>
-    <div id="home-vacancies" class="vacancy-list"><div class="empty-box">Loading vacancies…</div></div>
-    <p class="source-note">हर vacancy publish करने से पहले official notification verify करना जरूरी है।</p>
-  </div>
-</section>
+  <section id="latest-content" class="shell sdkc-dashboard-block">
+    <div class="sdkc-section-head"><div><span>📄</span><h2>Latest PDFs & Study Material</h2></div><button id="clear-home-filter" class="text-action" hidden>Show All</button></div>
+    <div id="home-content" class="sdkc-content-grid"><div class="empty-box">Loading study material…</div></div>
+  </section>
 
-<section class="shell section-block">
-  <div class="section-title"><div><span>RECOMMENDED STORE</span><h2>Amazon / Flipkart Affiliate Products</h2></div><a href="/affiliate.html">View All →</a></div>
-  <div id="home-affiliates" class="affiliate-grid"><div class="empty-box">Loading recommendations…</div></div>
-  <p class="affiliate-disclosure big-disclosure">Disclosure: कुछ links affiliate हो सकते हैं। खरीदारी marketplace पर होगी और qualifying purchase पर Smart DK Classes को commission मिल सकता है।</p>
-</section>
+  <section class="shell sdkc-dashboard-block">
+    <div class="sdkc-section-head"><div><span>▶</span><h2>Latest Videos</h2></div><a href="/videos.html">View All →</a></div>
+    <div id="home-videos" class="sdkc-video-grid"><div class="empty-box">Loading videos…</div></div>
+  </section>
 
-<section class="blog-section">
-  <div class="shell section-block">
-    <div class="section-title"><div><span>SMART DK BLOG</span><h2>Latest Articles & Study Updates</h2></div><a href="https://smartdkclasses.blogspot.com/" target="_blank" rel="noopener">View Blog →</a></div>
-    <p class="blog-intro">Study tips, model papers, education updates और useful student articles — Smart DK Classes Blogger से सीधे।</p>
-    <div id="home-blog-posts" class="blog-grid"><div class="empty-box">Loading latest blog posts…</div></div>
-    <noscript><p class="source-note">Latest articles देखने के लिए <a href="https://smartdkclasses.blogspot.com/">Smart DK Blog</a> खोलें।</p></noscript>
-  </div>
-</section>
+  <section id="vacancy-section" class="shell sdkc-dashboard-block">
+    <div class="sdkc-section-head"><div><span>📢</span><h2>Latest Vacancy Updates</h2></div><a href="/vacancies.html">View All →</a></div>
+    <div id="home-vacancies" class="sdkc-vacancy-grid"><div class="empty-box">Loading vacancies…</div></div>
+  </section>
 
-<section class="soft-section">
-  <div class="shell section-block">
-    <div class="section-title"><div><span>YOUTUBE + PAID LEARNING</span><h2>Latest Videos</h2></div><a href="/videos.html">Watch All →</a></div>
-    <div id="home-videos" class="video-grid"><div class="empty-box">Loading videos…</div></div>
-  </div>
-</section>
-
-<section class="shell trust-row">
-  <div><b>🔐 Secure Login</b><span>Supabase Auth</span></div>
-  <div><b>📱 Dynamic UPI QR</b><span>Razorpay server verification</span></div>
-  <div><b>📚 Protected Paid Files</b><span>Purchase-based access</span></div>
-  <div><b>☁ ₹0 Hosting Start</b><span>Cloudflare + Supabase free tier</span></div>
-</section>
+  <section class="shell sdkc-dashboard-block">
+    <div class="sdkc-section-head"><div><span>▰</span><h2>Study Material</h2></div></div>
+    <div class="sdkc-material-grid">
+      <button data-type-filter="note"><i>📗</i><b>Handwritten Notes</b><small>Chapter Wise</small></button>
+      <button data-type-filter="question_paper"><i>▣</i><b>Important Questions</b><small>Board Exam Special</small></button>
+      <button data-type-filter="other"><i>☷</i><b>Short Notes</b><small>Quick Revision</small></button>
+      <button data-type-filter="other"><i>💡</i><b>Mind Maps</b><small>Easy Learning</small></button>
+      <button data-type-filter="other"><i>⚗</i><b>Formulas</b><small>All Subjects</small></button>
+      <button data-type-filter="question_paper"><i>★</i><b>Previous Year Papers</b><small>With Solutions</small></button>
+    </div>
+  </section>
+</main>
 
 <div id="app-footer"></div>
 <script defer src="/assets/js/home.js"></script>
-</body></html>
+</body>
+</html>

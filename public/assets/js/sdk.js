@@ -78,7 +78,8 @@
     if (!state) return null;
     const profile = await getProfile();
     if (!profile?.is_admin) {
-      location.replace('/dashboard.html');
+      await getClient()?.auth?.signOut?.();
+      location.replace('/');
       return null;
     }
     return { ...state, profile };
@@ -97,9 +98,9 @@
 
   async function destinationForCurrentUser() {
     const state = await getSession();
-    if (!state.user) return '/login.html';
+    if (!state.user) return '/';
     const profile = await getProfile();
-    return profile?.is_admin ? '/admin.html' : '/dashboard.html';
+    return profile?.is_admin ? '/admin.html' : '/';
   }
 
   async function loadPublic(table, fallbackKey, orderBy = "created_at", ascending = false) {
@@ -126,6 +127,63 @@
   async function loadVideos(limit) {
     const rows = await loadPublic("videos", "videos");
     return limit ? rows.slice(0, limit) : rows;
+  }
+
+  async function loadAppContent({ limit = 0, homeOnly = false, contentTypes = [] } = {}) {
+    const sb = getClient();
+    if (!sb) return [];
+    let q = sb.from("app_content")
+      .select("*")
+      .eq("is_published", true)
+      .in("display_target", ["website", "both"])
+      .order("sort_order", { ascending: false })
+      .order("created_at", { ascending: false });
+    if (homeOnly) q = q.eq("show_on_home", true);
+    if (contentTypes.length) q = q.in("content_type", contentTypes);
+    if (limit) q = q.limit(limit);
+    const { data, error } = await q;
+    return error ? [] : (data || []);
+  }
+
+  function watchAppContent(onChange, intervalMs = 30000) {
+    if (typeof onChange !== "function") return () => {};
+    let stopped = false;
+    let lastSignature = null;
+
+    async function check() {
+      if (stopped) return;
+      try {
+        const rows = await loadAppContent();
+        const signature = rows.map(x => [
+          x.id, x.updated_at || x.created_at || "", x.display_target || "both",
+          x.show_on_home ? 1 : 0, x.is_published ? 1 : 0
+        ].join(":")).join("|");
+        if (lastSignature === null) {
+          lastSignature = signature;
+        } else if (signature !== lastSignature) {
+          lastSignature = signature;
+          onChange(rows);
+        }
+      } catch (_) {}
+    }
+
+    check();
+    const timer = setInterval(check, Math.max(10000, Number(intervalMs) || 30000));
+    const onVisible = () => { if (document.visibilityState === "visible") check(); };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      stopped = true;
+      clearInterval(timer);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }
+
+  function publicContentUrl(filePath = "") {
+    const raw = String(filePath || "").trim();
+    if (!raw) return "";
+    if (/^https?:\/\//i.test(raw)) return raw;
+    const base = String(cfg.supabaseUrl || "").replace(/\/+$/, "");
+    return `${base}/storage/v1/object/public/public-content/${raw.split("/").map(encodeURIComponent).join("/")}`;
   }
 
   async function loadProduct(id) {
@@ -169,9 +227,7 @@
   async function logout() {
     const sb = getClient();
     if (sb) await sb.auth.signOut();
-    const appMode = localStorage.getItem("smartdk_app_mode") === "1" ||
-      window.matchMedia?.("(display-mode: standalone)")?.matches || window.navigator.standalone === true;
-    location.href = appMode ? "/app-login.html?app=1" : "/";
+    location.href = "/";
   }
 
   async function authFetch(url, options = {}) {
@@ -244,8 +300,6 @@
     if (!sb) throw new Error("Supabase setup required.");
     const { data, error } = await sb.storage.from("paid-files").download(filePath);
     if (error) throw error;
-
-    // Android WebView bridge: saves paid files to Downloads on supported devices.
     if (window.SmartDKAndroid && typeof window.SmartDKAndroid.saveBase64File === "function") {
       const base64 = await new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -256,7 +310,6 @@
       window.SmartDKAndroid.saveBase64File(filename, data.type || "application/octet-stream", base64);
       return;
     }
-
     const url = URL.createObjectURL(data);
     const a = document.createElement("a");
     a.href = url;
@@ -278,7 +331,7 @@
   window.smartdk = {
     cfg, demo, configured, getClient, money, qs, escapeHtml, notice,
     getSession, getProfile, requireAuth, requireAdmin, requireStudent, destinationForCurrentUser,
-    loadProducts, loadVacancies, loadAffiliates, loadVideos, loadProduct,
+    loadProducts, loadVacancies, loadAffiliates, loadVideos, loadAppContent, watchAppContent, publicContentUrl, loadProduct,
     signup, login, sendPasswordReset, updatePassword, logout, authFetch, createQr, paymentStatus, createCheckoutOrder, verifyCheckoutPayment, myPurchases, myDoubts, downloadPaidFile, addDoubt
   };
 })();

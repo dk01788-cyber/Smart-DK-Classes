@@ -1,124 +1,94 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const sdk = window.smartdk;
-  const productEl = document.getElementById("home-products");
+  const contentEl = document.getElementById("home-content");
   const vacancyEl = document.getElementById("home-vacancies");
-  const affEl = document.getElementById("home-affiliates");
   const vidEl = document.getElementById("home-videos");
-  const blogEl = document.getElementById("home-blog-posts");
+  const clearBtn = document.getElementById("clear-home-filter");
+  let allHomeContent = [];
+  let allWebsiteContent = [];
 
-  const products = await sdk.loadProducts(4);
-  productEl.innerHTML = products.map(productCard).join("") || '<div class="empty-box">अभी कोई product publish नहीं है।</div>';
+  const typeLabel = (type) => ({
+    pdf: "PDF", note: "Notes", model_paper: "Model Paper", question_paper: "Question Paper",
+    video: "Video", vacancy: "Vacancy", other: "Study Material"
+  }[type] || "Content");
 
-  const vacancies = await sdk.loadVacancies(3);
-  vacancyEl.innerHTML = vacancies.map(v => `
-    <a class="vacancy-row" href="/vacancies.html">
-      <div><span class="status-dot"></span><b>${sdk.escapeHtml(v.title)}</b><small>${sdk.escapeHtml(v.department || v.category || "")}</small></div>
-      <div><span>Posts: ${sdk.escapeHtml(v.total_posts || "—")}</span><span>Last Date: ${sdk.escapeHtml(v.last_date || "—")}</span><strong>Details →</strong></div>
-    </a>`).join("") || '<div class="empty-box">अभी कोई vacancy publish नहीं है।</div>';
+  const contentHref = (x) => {
+    if (x.external_url) return x.external_url;
+    if (x.youtube_url) return x.youtube_url;
+    if (x.file_path) return sdk.publicContentUrl(x.file_path);
+    return "#";
+  };
 
-  const affiliates = await sdk.loadAffiliates(4);
-  affEl.innerHTML = affiliates.map(a => `
-    <article class="affiliate-card">
-      <div class="market-badge">${sdk.escapeHtml(a.marketplace || "Store")}</div>
-      <div class="affiliate-image">${a.image_url ? `<img src="${sdk.escapeHtml(a.image_url)}" alt="">` : "📚"}</div>
-      <h3>${sdk.escapeHtml(a.title)}</h3>
-      <p>${sdk.escapeHtml(a.description || "")}</p>
-      <b>${sdk.escapeHtml(a.price_text || "Check latest price")}</b>
-      <a class="btn dark full" target="_blank" rel="nofollow sponsored noopener" href="${sdk.escapeHtml(a.affiliate_url || "#")}">View on ${sdk.escapeHtml(a.marketplace || "Store")} →</a>
-    </article>`).join("") || '<div class="empty-box">Recommendations बाद में add करें।</div>';
-
-  if (blogEl) {
-    loadBloggerPosts(blogEl, 6);
-  }
-
-  function loadBloggerPosts(target, limit = 6) {
-    const callbackName = `smartDkBlogFeed_${Date.now()}`;
-    const script = document.createElement("script");
-    const cleanup = () => {
-      try { delete window[callbackName]; } catch (_) { window[callbackName] = undefined; }
-      script.remove();
-    };
-
-    window[callbackName] = (feed) => {
-      try {
-        const entries = feed?.feed?.entry || [];
-        if (!entries.length) throw new Error("No Blogger posts");
-        target.innerHTML = entries.slice(0, limit).map(blogCard).join("");
-      } catch (_) {
-        renderBlogFallback(target);
-      } finally {
-        cleanup();
-      }
-    };
-
-    script.onerror = () => {
-      cleanup();
-      renderBlogFallback(target);
-    };
-    script.src = `https://smartdkclasses.blogspot.com/feeds/posts/default?alt=json-in-script&max-results=${limit}&callback=${callbackName}`;
-    script.async = true;
-    document.head.appendChild(script);
-  }
-
-  function blogCard(entry) {
-    const title = entry?.title?.$t || "Smart DK Classes Article";
-    const link = (entry?.link || []).find(l => l.rel === "alternate")?.href || "https://smartdkclasses.blogspot.com/";
-    const published = entry?.published?.$t ? new Date(entry.published.$t) : null;
-    const dateText = published && !Number.isNaN(published.getTime())
-      ? published.toLocaleDateString("hi-IN", { day: "2-digit", month: "short", year: "numeric" })
-      : "Smart DK Blog";
-    const raw = entry?.summary?.$t || entry?.content?.$t || "";
-    const temp = document.createElement("div");
-    temp.innerHTML = raw;
-    const summary = (temp.textContent || temp.innerText || "").replace(/\s+/g, " ").trim().slice(0, 145);
-    let thumb = entry?.media$thumbnail?.url || "";
-    if (thumb) thumb = thumb.replace(/\/s72-c\//, "/s640/").replace(/=s72-c/, "=s640");
-
-    return `<article class="blog-card">
-      <a class="blog-thumb ${thumb ? "" : "blog-thumb-empty"}" href="${sdk.escapeHtml(link)}" target="_blank" rel="noopener">
-        ${thumb ? `<img src="${sdk.escapeHtml(thumb)}" alt="${sdk.escapeHtml(title)}" loading="lazy">` : `<span>✎</span><b>Smart DK Blog</b>`}
-      </a>
-      <div class="blog-card-body">
-        <div class="blog-meta"><span>Smart DK Classes</span><time>${sdk.escapeHtml(dateText)}</time></div>
-        <h3><a href="${sdk.escapeHtml(link)}" target="_blank" rel="noopener">${sdk.escapeHtml(title)}</a></h3>
-        ${summary ? `<p>${sdk.escapeHtml(summary)}${summary.length >= 145 ? "…" : ""}</p>` : ""}
-        <a class="blog-read-more" href="${sdk.escapeHtml(link)}" target="_blank" rel="noopener">Read Article →</a>
-      </div>
+  function studyCard(x) {
+    const href = contentHref(x);
+    const isFile = Boolean(x.file_path);
+    const meta = [x.class_name && `Class ${String(x.class_name).replace(/^Class\s*/i, "")}`, x.subject, x.category].filter(Boolean).join(" • ");
+    return `<article class="sdkc-study-card searchable-home" data-class="${sdk.escapeHtml(String(x.class_name || "").replace(/\D/g, ""))}" data-type="${sdk.escapeHtml(x.content_type || "other")}" data-search="${sdk.escapeHtml([x.title,x.description,x.class_name,x.subject,x.category].filter(Boolean).join(" ").toLowerCase())}">
+      <div class="study-icon ${sdk.escapeHtml(x.content_type || "other")}">${x.content_type === "video" ? "▶" : x.content_type === "vacancy" ? "📢" : "PDF"}</div>
+      <div class="study-copy"><span>${sdk.escapeHtml(typeLabel(x.content_type))}</span><h3>${sdk.escapeHtml(x.title)}</h3><p>${sdk.escapeHtml(meta || x.description || "Smart DK Classes")}</p></div>
+      <div class="study-actions">${href !== "#" ? `<a class="mini-btn" target="_blank" rel="noopener" href="${sdk.escapeHtml(href)}">${isFile ? "View / Download" : "Open"}</a>` : `<span class="mini-muted">Coming Soon</span>`}</div>
     </article>`;
   }
 
-  function renderBlogFallback(target) {
-    target.innerHTML = `<div class="blog-fallback">
-      <div><strong>✎ Smart DK Blog</strong><span>Latest articles अभी feed से load नहीं हो पाए।</span></div>
-      <a class="btn primary" href="https://smartdkclasses.blogspot.com/" target="_blank" rel="noopener">Open Blog →</a>
-    </div>`;
+  function renderStudy(rows) {
+    const docs = rows.filter(x => x.content_type !== "video" && x.content_type !== "vacancy");
+    contentEl.innerHTML = docs.length ? docs.slice(0, 8).map(studyCard).join("") : '<div class="empty-box sdkc-empty-wide">Admin Panel से Website/Both content publish करते ही यहाँ दिखेगा।</div>';
   }
 
-  try {
-    const res = await fetch("/api/youtube-feed");
-    const data = await res.json();
-    const videos = Array.isArray(data.videos) ? data.videos.slice(0, 4) : [];
-    vidEl.innerHTML = videos.length ? videos.map(videoCard).join("") :
-      `<article class="video-card"><div class="locked-video"><strong>▶ Smart DK Classes</strong><span>Latest YouTube videos deploy के बाद यहाँ आएँगे।</span></div><b>Public YouTube Feed</b></article>`;
-  } catch {
-    vidEl.innerHTML = `<article class="video-card"><div class="locked-video"><strong>▶ Smart DK Classes</strong><span>YouTube feed preview.</span></div><b>Public YouTube Feed</b></article>`;
+  function applyFilter({ classNo = "", type = "", query = "" } = {}) {
+    let rows = [...allWebsiteContent];
+    if (classNo) rows = rows.filter(x => String(x.class_name || "").replace(/\D/g, "") === String(classNo));
+    if (type) rows = rows.filter(x => x.content_type === type);
+    if (query) {
+      const q = query.toLowerCase();
+      rows = rows.filter(x => [x.title,x.description,x.class_name,x.subject,x.category].filter(Boolean).join(" ").toLowerCase().includes(q));
+    }
+    renderStudy(rows);
+    clearBtn.hidden = !(classNo || type || query);
+    document.getElementById("latest-content")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  function productCard(p) {
-    const priced = Number(p.price || 0) > 0;
-    return `<article class="product-card">
-      <a class="product-thumb placeholder-thumb" href="/product.html?id=${encodeURIComponent(p.id)}">
-        ${p.cover_url ? `<img src="${sdk.escapeHtml(p.cover_url)}" alt="">` : `<div><b>${sdk.escapeHtml(p.type || "Product")}</b><span>${sdk.escapeHtml(p.title)}</span><small>${sdk.escapeHtml([p.class_name,p.subject].filter(Boolean).join(" • "))}</small></div>`}
-      </a>
-      <div class="product-info"><span class="chip">${sdk.escapeHtml(p.type || "Product")}</span><h3>${sdk.escapeHtml(p.title)}</h3>
-      <p>${sdk.escapeHtml(p.description || "")}</p><div class="price-row"><b class="${priced ? "" : "price-later"}">${sdk.money(p.price)}</b>${Number(p.mrp||0)>Number(p.price||0) && priced ? `<del>₹${Number(p.mrp).toLocaleString("en-IN")}</del>`:""}</div>
-      <a class="btn primary full" href="/product.html?id=${encodeURIComponent(p.id)}">View Details</a></div></article>`;
+  allWebsiteContent = await sdk.loadAppContent();
+  allHomeContent = allWebsiteContent.filter(x => x.show_on_home === true);
+  renderStudy(allHomeContent);
+
+  document.querySelectorAll("[data-class-filter]").forEach(btn => btn.addEventListener("click", () => applyFilter({ classNo: btn.dataset.classFilter })));
+  document.querySelectorAll("[data-type-filter]").forEach(btn => btn.addEventListener("click", () => applyFilter({ type: btn.dataset.typeFilter })));
+  clearBtn?.addEventListener("click", () => { renderStudy(allHomeContent); clearBtn.hidden = true; });
+
+  const urlQuery = new URLSearchParams(location.search).get("q")?.trim();
+  if (urlQuery) applyFilter({ query: urlQuery });
+
+  const appVideos = allHomeContent.filter(x => x.content_type === "video");
+  if (appVideos.length) {
+    vidEl.innerHTML = appVideos.slice(0, 4).map(x => {
+      const href = contentHref(x);
+      const thumb = x.thumbnail_url || "";
+      return `<a class="sdkc-video-card" target="_blank" rel="noopener" href="${sdk.escapeHtml(href || "#")}">
+        <div class="sdkc-video-thumb">${thumb ? `<img src="${sdk.escapeHtml(thumb)}" alt="">` : `<div class="video-placeholder"><span>▶</span><b>${sdk.escapeHtml(x.class_name || "Smart DK")}</b></div>`}<i>▶</i></div>
+        <span>${sdk.escapeHtml(x.class_name || "Smart DK Classes")}</span><b>${sdk.escapeHtml(x.title)}</b><small>${sdk.escapeHtml(x.subject || "Video Class")}</small>
+      </a>`;
+    }).join("");
+  } else {
+    try {
+      const res = await fetch("/api/youtube-feed");
+      const data = await res.json();
+      const videos = Array.isArray(data.videos) ? data.videos.slice(0, 4) : [];
+      vidEl.innerHTML = videos.length ? videos.map(v => `<a class="sdkc-video-card" target="_blank" rel="noopener" href="${sdk.escapeHtml(v.url)}"><div class="sdkc-video-thumb"><img src="${sdk.escapeHtml(v.thumbnail)}" alt=""><i>▶</i></div><span>Smart DK Classes</span><b>${sdk.escapeHtml(v.title)}</b><small>YouTube Video</small></a>`).join("") : '<div class="empty-box sdkc-empty-wide">Latest videos जल्द यहाँ दिखेंगे।</div>';
+    } catch {
+      vidEl.innerHTML = '<div class="empty-box sdkc-empty-wide">Latest videos जल्द यहाँ दिखेंगे।</div>';
+    }
   }
 
-  function videoCard(v) {
-    return `<a class="video-card" target="_blank" rel="noopener" href="${sdk.escapeHtml(v.url)}">
-      <div class="video-thumb"><img src="${sdk.escapeHtml(v.thumbnail)}" alt=""><span>▶</span></div>
-      <b>${sdk.escapeHtml(v.title)}</b>
-    </a>`;
+  const appVacancies = allHomeContent.filter(x => x.content_type === "vacancy");
+  if (appVacancies.length) {
+    vacancyEl.innerHTML = appVacancies.slice(0, 4).map(x => `<a class="sdkc-vacancy-card" target="_blank" rel="noopener" href="${sdk.escapeHtml(contentHref(x) || "#")}"><span>NEW</span><div><b>${sdk.escapeHtml(x.title)}</b><small>${sdk.escapeHtml(x.description || x.category || "Latest Vacancy Update")}</small></div><strong>Details →</strong></a>`).join("");
+  } else {
+    const vacancies = await sdk.loadVacancies(4);
+    vacancyEl.innerHTML = vacancies.length ? vacancies.map(v => `<a class="sdkc-vacancy-card" href="/vacancies.html"><span>NEW</span><div><b>${sdk.escapeHtml(v.title)}</b><small>${sdk.escapeHtml(v.department || v.category || "Latest Vacancy")}</small></div><strong>Details →</strong></a>`).join("") : '<div class="empty-box sdkc-empty-wide">अभी कोई vacancy publish नहीं है।</div>';
   }
+
+
+  // Keep an already-open website page synced with content published from the Android Admin Panel.
+  sdk.watchAppContent(() => location.reload(), 30000);
 });

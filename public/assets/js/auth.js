@@ -38,10 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
         location.replace('/admin.html');
         return;
       }
-      const requested = new URLSearchParams(location.search).get("next");
-      const blockedForStudents = new Set(['/admin.html', '/wallet.html']);
-      const next = requested && !blockedForStudents.has(requested.split('?')[0]) ? requested : '/dashboard.html';
-      location.replace(next);
+      const sb = sdk.getClient();
+      if (sb) await sb.auth.signOut();
+      msg.replaceChildren(sdk.notice("यह login केवल Admin के लिए है। Students बिना login के website इस्तेमाल कर सकते हैं।", "error"));
     } catch (err) {
       msg.replaceChildren(sdk.notice(err.message || "Login failed", "error"));
     } finally {
@@ -49,26 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  register?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const msg = document.getElementById("register-msg");
-    setButtonBusy(register, true, "Creating account...");
-    try {
-      const { data, error } = await sdk.signup({
-        fullName: document.getElementById("reg-name").value.trim(),
-        phone: document.getElementById("reg-phone").value.trim(),
-        email: document.getElementById("reg-email").value.trim(),
-        password: document.getElementById("reg-password").value
-      });
-      if (error) throw error;
-      if (data.session) location.href = "/dashboard.html";
-      else msg.replaceChildren(sdk.notice("Account created. Email confirmation enabled है तो inbox में confirmation link खोलें।", "success"));
-    } catch (err) {
-      msg.replaceChildren(sdk.notice(err.message || "Registration failed", "error"));
-    } finally {
-      setButtonBusy(register, false);
-    }
-  });
 
   forgotPassword?.addEventListener("submit", async (e) => {
     e.preventDefault();
