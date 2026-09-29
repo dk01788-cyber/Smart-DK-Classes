@@ -36,7 +36,8 @@
   const blogUrl = appSettings.blogger_url || "https://smartdkclasses.blogspot.com/";
   const youtubeUrl = appSettings.youtube_channel_url || (settings.youtube_channel_id ? `https://www.youtube.com/channel/${encodeURIComponent(settings.youtube_channel_id)}` : "https://www.youtube.com/@smartdkclasses");
   // Public contact details: local config intentionally wins over any stale older DB value.
-  const supportPhone = cfg.supportPhone || settings.support_phone || settings.supportPhone || "7376546714";
+  // Public website intentionally does not expose a phone/WhatsApp number.
+  // Keep support contact email-only even if an older number still exists in Supabase.
   const supportEmail = cfg.supportEmail || settings.support_email || settings.supportEmail || "smartdkclasses.help@gmail.com";
 
   // Latest Android APK is controlled from the protected Android Admin Panel.
@@ -61,8 +62,7 @@
   if (header) {
     header.innerHTML = `
       <div class="contact-strip"><div class="shell strip-inner">
-        <div>☎ ${supportPhone} (Call/WhatsApp)</div>
-        <div class="hide-mobile">✉ ${supportEmail}</div>
+        <div>✉ ${supportEmail}</div>
         <div class="strip-spacer"></div>
         <a href="${esc(youtubeUrl)}" target="_blank" rel="noopener">▶ YouTube</a>
         <span>Students: No Login Required</span>
@@ -82,7 +82,7 @@
       <footer class="site-footer"><div class="shell footer-grid">
         <div><img class="footer-logo" src="/assets/img/logo.png" alt="Smart DK Classes"><p>Class 9, 10, 11, 12 के लिए खुला educational platform.</p></div>
         <div><b>Learning</b><a href="/#latest-content">PDFs &amp; Notes</a><a href="/videos.html">Videos</a><a href="/#classes">Classes</a><a href="/guides.html">Study Guides</a></div>
-        <div><b>Updates</b><a href="/vacancies.html">Jobs / Vacancy</a><a href="${esc(blogUrl)}" target="_blank" rel="noopener">Blogger</a><b class="footer-subhead">Contact</b><a href="tel:${supportPhone}">${supportPhone}</a><a href="mailto:${supportEmail}">${supportEmail}</a></div>
+        <div><b>Updates</b><a href="/vacancies.html">Jobs / Vacancy</a><a href="${esc(blogUrl)}" target="_blank" rel="noopener">Blogger</a><b class="footer-subhead">Contact</b><a href="mailto:${supportEmail}">${supportEmail}</a></div>
         <div><b>Information</b><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a><a href="/privacy-policy.html">Privacy Policy</a><a href="/terms.html">Terms &amp; Conditions</a><a href="/legal.html">Legal</a></div>
       </div><div class="shell footer-bottom">© <span id="footer-year"></span> Smart DK Classes • Public learning access</div></footer>`;
     const yr = document.getElementById("footer-year");

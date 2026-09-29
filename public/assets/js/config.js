@@ -1,8 +1,6 @@
 window.SMART_DK_CONFIG = {
   brandName: "Smart DK Classes",
   tagline: "Learn Today • Build Tomorrow",
-  supportPhone: "7376546714",
-  whatsappNumber: "917376546714",
   supportEmail: "smartdkclasses.help@gmail.com",
   youtubeChannelId: "UCxaVDJ6NSpm_jQFPA_uJMjQ",
 
