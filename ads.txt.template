@@ -1,0 +1,3 @@
+# Replace YOUR_PUBLISHER_ID after AdSense gives you the ca-pub-xxxxxxxxxxxxxxxx ID.
+# Then save the final line as public/ads.txt before/after AdSense approval as instructed by AdSense.
+google.com, pub-YOUR_PUBLISHER_ID, DIRECT, f08c47fec0942fa0
