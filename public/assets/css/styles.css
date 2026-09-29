@@ -113,3 +113,14 @@ body.app-theme-home .nav-scroll a:hover,body.app-theme-home .nav-scroll .active-
   .pdf-tools button,.pdf-tools a{padding:8px 9px;font-size:12px}
   .pdf-stage{padding:10px 4px 30px}
 }
+
+
+/* === Website v5.1: Admin-controlled APK download strip === */
+.apk-download-strip{background:linear-gradient(90deg,#eaf4ff,#f8fbff);border-bottom:1px solid #d8e8fb}
+.apk-download-inner{min-height:62px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:9px 0}
+.apk-download-copy{display:flex;align-items:center;gap:11px;min-width:0;color:#123a72}
+.apk-download-copy .apk-phone{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:#fff;border:1px solid #cfe1f8;font-size:20px;flex:0 0 auto}
+.apk-download-copy div{display:grid;gap:2px;min-width:0}.apk-download-copy b{font-size:14px}.apk-download-copy small{font-size:10px;color:#667b98}
+.apk-download-btn{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;background:#0b63f6;color:#fff;border-radius:10px;padding:10px 16px;font-size:12px;font-weight:900;box-shadow:0 5px 14px rgba(11,99,246,.2)}
+.apk-download-btn:hover{background:#084fc4;color:#fff}
+@media(max-width:560px){.apk-download-inner{min-height:58px;padding:8px 10px;gap:9px}.apk-download-copy{gap:8px}.apk-download-copy .apk-phone{width:34px;height:34px;font-size:17px;border-radius:10px}.apk-download-copy b{font-size:12px}.apk-download-copy small{font-size:9px}.apk-download-btn{padding:9px 11px;font-size:11px;border-radius:9px;white-space:nowrap}}

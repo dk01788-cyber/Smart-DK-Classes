@@ -323,7 +323,7 @@ using (
 );
 
 insert into public.site_settings (id, support_phone, support_email, whatsapp_number, youtube_channel_id, announcement)
-values (1, '7376546714', 'dk01788@gmail.com', '917376546714', 'UCxaVDJ6NSpm_jQFPA_uJMjQ', 'Welcome to Smart DK Classes')
+values (1, '7376546714', 'smartdkclasses.help@gmail.com', '917376546714', 'UCxaVDJ6NSpm_jQFPA_uJMjQ', 'Welcome to Smart DK Classes')
 on conflict (id) do nothing;
 
 -- Starter products: price stays 0 until you set it in Admin Panel.

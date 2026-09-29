@@ -162,3 +162,19 @@ Then open the local URL Wrangler prints.
 3. `supabase/make-admin.sql` — run after owner signup
 4. Cloudflare project Variables/Secrets — server secrets
 5. Admin Panel — prices/products/vacancies/files
+
+## Forgot Password update
+Login page में Forgot Password flow जोड़ा गया है। Supabase redirect allowlist setup के लिए `FORGOT-PASSWORD-SETUP-HINDI.md` देखें।
+
+
+## V4.6 integration update
+- Website homepage now matches the locked blue-white Android app design language.
+- Homepage reads `app_content` with `display_target` = `website` or `both`.
+- `show_on_home` controls homepage visibility.
+- Public Supabase browser URL + publishable key are configured; secret/service keys are not embedded.
+- Legacy store/payment pages are retained.
+
+## Website v5.2 AdSense preparation
+- Added About, Contact, Privacy Policy, Terms and original Study Guides pages.
+- Public support email: `smartdkclasses.help@gmail.com`.
+- AdSense verification code and live ads.txt are intentionally pending until Google provides the publisher/client ID.

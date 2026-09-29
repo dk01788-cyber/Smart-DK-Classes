@@ -29,6 +29,14 @@
 
   const blogUrl = appSettings.blogger_url || "https://smartdkclasses.blogspot.com/";
   const youtubeUrl = appSettings.youtube_channel_url || (settings.youtube_channel_id ? `https://www.youtube.com/channel/${encodeURIComponent(settings.youtube_channel_id)}` : "https://www.youtube.com/@smartdkclasses");
+
+  // Latest Android APK is controlled from the protected Android Admin Panel.
+  const apkPath = String(settings.android_apk_path || "").replace(/^\/+/, "");
+  const apkVersion = String(settings.android_app_version || "").trim();
+  const apkBase = String(cfg.supabaseUrl || "").replace(/\/$/, "");
+  const apkHref = apkPath && apkBase
+    ? `${apkBase}/storage/v1/object/public/app-downloads/${apkPath.split("/").map(encodeURIComponent).join("/")}`
+    : "";
   const nav = [
     ["/", "⌂ Home"],
     ["/#classes", "▤ Classes"],
@@ -52,7 +60,8 @@
         <form class="global-search" action="/"><input name="q" placeholder="Search PDFs, Videos, Notes, Model Papers..."><button aria-label="Search">⌕</button></form>
       </div><nav class="nav-bar"><div class="shell nav-scroll">
         ${nav.map(([href,label]) => `<a href="${window.smartdk.escapeHtml(href)}" ${/^https?:/i.test(href)?'target="_blank" rel="noopener"':''}>${label}</a>`).join("")}
-      </div></nav></header>`;
+      </div></nav></header>
+      ${apkHref ? `<div class="apk-download-strip"><div class="shell apk-download-inner"><div class="apk-download-copy"><span class="apk-phone">📱</span><div><b>Smart DK Classes App डाउनलोड करें</b><small>${apkVersion ? `Latest version ${window.smartdk.escapeHtml(apkVersion)} • ` : ""}Android APK सीधे डाउनलोड करें</small></div></div><a class="apk-download-btn" href="${window.smartdk.escapeHtml(apkHref)}" download>Download APK</a></div></div>` : ""}`;
   }
 
   if (footer) {
