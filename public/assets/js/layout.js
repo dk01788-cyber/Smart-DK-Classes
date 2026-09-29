@@ -25,24 +25,7 @@
   const header = document.getElementById("app-header");
   const footer = document.getElementById("app-footer");
 
-  // Only the Admin area requires login. All student/public learning pages remain open.
-  if (current === "admin.html" && isAdmin) {
-    if (header) {
-      header.innerHTML = `
-        <div class="contact-strip"><div class="shell strip-inner">
-          <div>🔐 Admin: ${window.smartdk.escapeHtml(user.email || "")}</div>
-          <div class="strip-spacer"></div>
-          <a href="/">View Website</a>
-          <button class="link-button" id="logout-mini">Logout</button>
-        </div></div>
-        <header class="main-header"><div class="shell header-row">
-          <a class="brand" href="/admin.html"><img src="/assets/img/logo.svg" alt="Smart DK Classes"><span><strong>Smart <em>DK</em> Classes</strong><small>Admin Control</small></span></a>
-        </div><nav class="nav-bar"><div class="shell nav-scroll"><a class="active-nav" href="/admin.html">⚙ Admin Panel</a><a href="/">⌂ Public Website</a></div></nav></header>`;
-      document.getElementById("logout-mini")?.addEventListener("click", () => window.smartdk.logout());
-    }
-    if (footer) footer.innerHTML = `<footer class="site-footer"><div class="shell footer-bottom">Smart DK Classes • Protected Admin Area</div></footer>`;
-    return;
-  }
+  // Public website only: no web Admin Panel is exposed here.
 
   const blogUrl = appSettings.blogger_url || "https://smartdkclasses.blogspot.com/";
   const youtubeUrl = appSettings.youtube_channel_url || (settings.youtube_channel_id ? `https://www.youtube.com/channel/${encodeURIComponent(settings.youtube_channel_id)}` : "https://www.youtube.com/@smartdkclasses");

@@ -1,4 +1,4 @@
-const CACHE="smart-dk-public-v2";
+const CACHE="smart-dk-public-v3";
 const CORE=["/","/index.html","/videos.html","/vacancies.html","/legal.html","/assets/css/styles.css","/assets/js/config.js","/assets/js/sdk.js","/assets/js/layout.js","/assets/js/home.js","/assets/js/pdf-viewer.js","/pdf-viewer.html","/assets/img/logo.svg","/assets/img/teacher.png","/assets/img/banner.png"];
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));

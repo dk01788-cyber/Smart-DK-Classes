@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (error) throw error;
       const profile = await sdk.getProfile();
       if (profile?.is_admin) {
-        location.replace('/admin.html');
+        location.replace('/');
         return;
       }
       const sb = sdk.getClient();

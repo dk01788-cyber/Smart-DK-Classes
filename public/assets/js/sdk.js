@@ -90,8 +90,8 @@
     if (!state) return null;
     const profile = await getProfile();
     if (profile?.is_admin) {
-      location.replace('/admin.html');
-      return null;
+      // Public website never redirects admin sessions into a web admin page.
+      return { ...state, profile };
     }
     return { ...state, profile };
   }
@@ -100,7 +100,7 @@
     const state = await getSession();
     if (!state.user) return '/';
     const profile = await getProfile();
-    return profile?.is_admin ? '/admin.html' : '/';
+    return '/';
   }
 
   async function loadPublic(table, fallbackKey, orderBy = "created_at", ascending = false) {
